@@ -27,6 +27,7 @@
 # SH
 #  - script.sh
 
+DMENU_PROMT="template"
 NUMBER_OF_LINE=10
 PREVIEW_LENGHT=100
 declare -A FIELDS
@@ -72,7 +73,9 @@ copy_from_file() {
 }
 
 build_folder_preview $1
-QUERY_RESULT=$(echo -e "$PREVIEW_FOLDER" | dmenu -l 10 -i | sed "s|[\\]|\\\\\\\\|g")
+QUERY_RESULT=$(echo -e "$PREVIEW_FOLDER" \
+    | dmenu -l 10 -i -p $DMENU_PROMT     \
+    | sed "s|[\\]|\\\\\\\\|g")
 # Should use copy_from_file ${FIELDS["$KEY"]} and invert the key/value in the
 # hash table
 for KEY in ${!FIELDS[@]}; do
