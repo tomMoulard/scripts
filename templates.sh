@@ -66,6 +66,8 @@ copy_from_file() {
 
 build_folder_preview $1
 QUERY_RESULT=$(echo -e "$PREVIEW_FOLDER" | dmenu -l 10 | sed "s|[\\]|\\\\\\\\|g")
+# Should use copy_from_file ${FIELDS["$KEY"]} and invert the key/value in the
+# hash table
 for KEY in ${!FIELDS[@]}; do
     if [ "${FIELDS["$KEY"]}" == "$QUERY_RESULT" ]; then
         copy_from_file $KEY
