@@ -15,12 +15,17 @@
 # [CPP] Class   : "class TEMPLATE\n{..."
 # [C]   Header  : "#ifndef TEMPLATE_..."
 # [C]   Makefile: "CC = gcc\nCFLAGS ..."
+# [SH]  script  : "#!/bin/bash\nCOUN..."
 
 # Load templates from folder given as first argument
 # Each file extention shall give the template format:
-# Class.cpp
-# Header.c
-# Makefile.c
+# CPP
+#  - Class.cc
+# C
+#  - Header.c
+#  - Makefile.c
+# SH
+#  - script.sh
 
 NUMBER_OF_LINE=10
 PREVIEW_LENGHT=100
@@ -32,12 +37,12 @@ if [ "$3" != "" ];then
     PREVIEW_LENGHT=$3
 fi
 
-# load_file_preview <file>
+# load_file_preview <file> <file tag>
 # store result in PREVIEW_FILE
 load_file_preview (){
     PREVIEW_FILE="$(head -c $PREVIEW_LENGHT $1 | sed ':a;N;$!ba;s/\n/\\\\n/g')"
     PREVIEW_FILENAME=$(echo $1 | rev | cut -f 1 -d "/" | rev)
-    PREVIEW_TAG="[$(echo $PREVIEW_FILENAME | cut -f 2 -d '.')]"
+    PREVIEW_TAG="[$(echo $2 | rev | cut -f 1 -d "/" | rev)]"
     PREVIEW_FILENAME="$(echo $PREVIEW_FILENAME | cut -f 1 -d '.')"
     PREVIEW_FILE="${PREVIEW_TAG} ${PREVIEW_FILENAME}: '${PREVIEW_FILE}...'"
 }
@@ -46,15 +51,17 @@ load_file_preview (){
 # store string result in PREVIEW_FOLDER and array in FIELDS
 build_folder_preview (){
     FIRST=1
-    for FILE in $1/*; do
-        load_file_preview $FILE
-        if [ $FIRST -eq 1 ];then
-            PREVIEW_FOLDER="${PREVIEW_FILE}"
-            FIRST=0
-        else
-            PREVIEW_FOLDER="${PREVIEW_FOLDER}\n${PREVIEW_FILE}"
-        fi
-        FIELDS["$FILE"]="$PREVIEW_FILE"
+    for FOLDER in $1/*; do
+        for FILE in $FOLDER/*; do
+            load_file_preview $FILE $FOLDER
+            if [ $FIRST -eq 1 ];then
+                PREVIEW_FOLDER="${PREVIEW_FILE}"
+                FIRST=0
+            else
+                PREVIEW_FOLDER="${PREVIEW_FOLDER}\n${PREVIEW_FILE}"
+            fi
+            FIELDS["$FILE"]="$PREVIEW_FILE"
+        done
     done
 }
 
