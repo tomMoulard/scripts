@@ -72,7 +72,7 @@ copy_from_file() {
 }
 
 build_folder_preview $1
-QUERY_RESULT=$(echo -e "$PREVIEW_FOLDER" | dmenu -l 10 | sed "s|[\\]|\\\\\\\\|g")
+QUERY_RESULT=$(echo -e "$PREVIEW_FOLDER" | dmenu -l 10 -i | sed "s|[\\]|\\\\\\\\|g")
 # Should use copy_from_file ${FIELDS["$KEY"]} and invert the key/value in the
 # hash table
 for KEY in ${!FIELDS[@]}; do
