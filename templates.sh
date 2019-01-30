@@ -66,10 +66,20 @@ build_folder_preview (){
     done
 }
 
+# send_notification <filename>
+# send a notification using notify-send to tell which file has been copied.
+send_notification(){
+    notify-send --expire-time=3000 \
+        --urgency=low              \
+        "Copied:"                  \
+        "$(cat "$1")"
+}
+
 # copy_from_file <file>
 # Store the content of the file in the cliboard
 copy_from_file() {
     xclip -selection clipboard "$1"
+    send_notification "$1"
 }
 
 build_folder_preview "$1"
