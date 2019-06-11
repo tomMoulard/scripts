@@ -7,7 +7,7 @@ fi
 NAME="$(basename "$0")"
 
 for FILE in *.sh; do
-    if [ "$NAME" != "$FILE" ]; then
+    if [ "$NAME" != "$FILE" ] && [ ! -e "$HOME/.scripts/$FILE" ]; then
         ln -s "$PWD/$FILE" "$HOME/.scripts"
     fi
 done
