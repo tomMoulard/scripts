@@ -8,11 +8,11 @@ We need to have a h264 encoded video with AAC encoded sound
 convert.sh [-s|--status] [-a|--audio] [-v|--video] files
 convert.sh -h|--help
 Arguments:
-\t-h|--help\tdisplay this help
-\t-s|--status\tdisplay each files encoding
-\t-a|--audio\tConvert each files's audio to a proper encoding
-\t-v|--video\tConvert each files's video to a proper encoding
-\t-b|--both\tConvert each files's audio and video to a proper encoding
+    -h|--help      display this help
+    -s|--status    display each files encoding
+    -a|--audio     Convert each files's audio to a proper encoding
+    -v|--video     Convert each files's video to a proper encoding
+    -b|--both      Convert each files's audio and video to a proper encoding
 ```
 
 ## ffmpeg usage
