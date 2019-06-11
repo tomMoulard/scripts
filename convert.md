@@ -17,10 +17,10 @@ Arguments:
 
 ## ffmpeg usage
 `ffmpeg -i file.mkv -c:v libx264 -c:a aac -map 0 -threads 8 file.mkv.mp4`
-where `-c:v libx264` convert the video encoding
-where `-c:a aac` convert the audio encoding
-where `-map 0` keep all stream like auther audio and subtitles
-where `-threads n` set thread count to `n`
+ - `-c:v libx264` convert the video encoding
+ - `-c:a aac` convert the audio encoding
+ - `-map 0` keep all stream like auther audio and subtitles
+ - `-threads n` set thread count to `n`
 
 ## comkvmerge usage
 `comkvmerge --identify file.{mkv|mp4}`
