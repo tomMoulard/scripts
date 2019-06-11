@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -d "$HOME/.scripts" ]; then
     mkdir -p "$HOME/.scripts"
