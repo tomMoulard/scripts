@@ -1,7 +1,7 @@
 # scripts
 Usefull scripts to manage a computer
 
-## Who to:
+## How to:
 Script: <something>.<else>
 README: <something>.md
 
