@@ -66,7 +66,7 @@ function setup_thermal() {
 }
 
 function setup_sound_volume() {
-    awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master)
+    awk -F"[][]" '/dB/ { if ($6 == "on") {icon="🔊"} else {icon="🔇"}; print $2 icon }' <(amixer sget Master)
 }
 
 while :; do
