@@ -1,5 +1,5 @@
 #!/bin/sh
-USAGE="Usage $0 {toggle|up|down|mute|set}
+USAGE="Usage $0 {toggle|up|down|mute|set <value>}
 "
 
 STEP=2
