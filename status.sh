@@ -43,7 +43,9 @@ function setup_net() {
         RX_POS=$(( RX_POS + 1 ))
     done
 
-    printf "⬇%4d%3s ⬆%4d%3s\\n" "${RX_CAL}" "${VALUES[${RX_POS}]}" \
+    SSID=$(iwgetid | cut -d"\"" -f 2)
+
+    printf "%s:⬇%4d%3s ⬆%4d%3s\\n" "${SSID}" "${RX_CAL}" "${VALUES[${RX_POS}]}" \
         "${TX_CAL}" "${VALUES[${TX_POS}]}"
     echo "${TX} ${RX}" > ${CACHE}/netstat
 }
