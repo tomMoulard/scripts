@@ -68,7 +68,9 @@ function setup_thermal() {
 }
 
 function setup_sound_volume() {
-    awk -F"[][]" '/dB/ { if ($6 == "on") {icon="🔊"} else {icon="🔇"}; print $2 icon }' <(amixer sget Master)
+    VOLUME=$(pactl list sinks | grep Volume | head -n 1 | cut -d"/" -f 2 | sed 's/ //g')
+    ICON=$(awk -F"[][]" '/dB/ { if ($6 == "on") {icon="🔊"} else {icon="🔇"}; print icon }' <(amixer sget Master))
+    echo "${VOLUME}${ICON}"
 }
 
 while :; do
