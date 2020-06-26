@@ -70,7 +70,7 @@ function setup_sound_volume() {
 function setup_wttr_report() {
     # see wttr.in/:help
     WEATHERREPORT="${CACHE}/weatherreport"
-    [ "$(stat -c %y "${WEATHERREPORT}" 2>/dev/null | cut -d' ' -f1)" = "$(date '+%Y-%m-%d')" ] || \
+    [ "$(stat -c %y "${WEATHERREPORT}" 2>/dev/null | cut -d':' -f1)" = "$(date '+%Y-%m-%d %H')" ] || \
         curl -sf https://wttr.in/?format="%c%h+%t+%w+%m" > "${WEATHERREPORT}"
     cat "${WEATHERREPORT}"
 }
