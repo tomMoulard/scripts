@@ -73,6 +73,26 @@ function setup_sound_volume() {
     echo "${VOLUME}${ICON}"
 }
 
+function setup_wttr_report() {
+    # see wttr.in/:help
+    # and https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/statusbar/weather
+    WEATHERREPORT="${CACHE}/weatherreport"
+    [ "$(stat -c %y "${WEATHERREPORT}" 2>/dev/null | cut -d' ' -f1)" = "$(date '+%Y-%m-%d')" ] || curl -sf "https://wttr.in" > "${WEATHERREPORT}"
+
+    sed '16q;d' "${WEATHERREPORT}" | \
+        grep -wo "[0-9]*%" | \
+        sort -rn | \
+        sed "s/^/☔/g;1q" | \
+        tr -d '\n'
+
+    sed '13q;d' "${WEATHERREPORT}" | \
+        grep -o "m\\([-+]\\)*[0-9]\\+" | \
+        sort -n -t 'm' -k 2n | \
+        sed -e 1b -e '$!d' | \
+        tr '\n|m' ' ' | \
+        awk '{print " ☃" $1 "°","🌞" $2 "°"}'
+}
+
 while :; do
     DATE=$(setup_date)
     NET=$(setup_net)
@@ -81,7 +101,8 @@ while :; do
     CPU_TEMP=$(setup_thermal)
     CPU_UTIL=$(setup_cpu)
     VOLUME=$(setup_sound_volume)
-    STATUS="♪:${VOLUME}${SEP}🧠:${CPU_UTIL}% 🌡${CPU_TEMP}${SEP}${RAM}${SEP}${DF}${SEP}${NET}${SEP}${DATE}"
+    WTTR=$(setup_wttr_report)
+    STATUS="${WTTR}${SEP}♪:${VOLUME}${SEP}🧠:${CPU_UTIL}% 🌡${CPU_TEMP}${SEP}${RAM}${SEP}${DF}${SEP}${NET}${SEP}${DATE}"
     # echo "$STATUS" || exit 1
     xsetroot -name "$STATUS" || exit 1
     sleep 1s
