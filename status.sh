@@ -44,9 +44,12 @@ function setup_net() {
     done
 
     SSID=$(iwgetid | cut -d"\"" -f 2)
+    POWER=$(awk '/^\s*w/ { print "📶", int($3 * 100 / 70) "%"}' /proc/net/wireless)
 
-    printf "%s:⬇%4d%3s ⬆%4d%3s\\n" "${SSID}" "${RX_CAL}" "${VALUES[${RX_POS}]}" \
-        "${TX_CAL}" "${VALUES[${TX_POS}]}"
+    printf "%s:⬇%4d%3s ⬆%4d%3s %s" "${SSID}"\
+        "${RX_CAL}" "${VALUES[${RX_POS}]}" \
+        "${TX_CAL}" "${VALUES[${TX_POS}]}" \
+        "${POWER}"
     echo "${TX} ${RX}" > "${CACHE}/netstat"
 }
 
