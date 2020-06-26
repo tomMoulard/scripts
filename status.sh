@@ -16,7 +16,7 @@ FILESYSTEM=sda1
 
 # Variables
 CACHE=${XDG_CACHE_HOME:-$HOME/.cache}
-CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
+# CPU_COUNT=$(grep -c processor /proc/cpuinfo)
 
 function setup_date() {
     date "+%a %x %X"
@@ -24,10 +24,10 @@ function setup_date() {
 
 function setup_net() {
     TX=$(cat /sys/class/net/${IF_NAME}/statistics/tx_bytes)
-    TX_OLD=$([ -f ${CACHE}/netstat ] && cat ${CACHE}/netstat | cut -d' ' -f 1\
+    TX_OLD=$([ -f "${CACHE}/netstat" ] && cut -d' ' -f 1 "${CACHE}/netstat" \
         || echo 0)
     RX=$(cat /sys/class/net/${IF_NAME}/statistics/rx_bytes)
-    RX_OLD=$([ -f ${CACHE}/netstat ] && cat ${CACHE}/netstat | cut -d' ' -f 2\
+    RX_OLD=$([ -f "${CACHE}/netstat" ] && cut -d' ' -f 2 "${CACHE}/netstat" \
         || echo 0)
     TX_CAL=$(( (TX - TX_OLD) ))
     RX_CAL=$(( (RX - RX_OLD) ))
@@ -47,7 +47,7 @@ function setup_net() {
 
     printf "%s:⬇%4d%3s ⬆%4d%3s\\n" "${SSID}" "${RX_CAL}" "${VALUES[${RX_POS}]}" \
         "${TX_CAL}" "${VALUES[${TX_POS}]}"
-    echo "${TX} ${RX}" > ${CACHE}/netstat
+    echo "${TX} ${RX}" > "${CACHE}/netstat"
 }
 
 function setup_df () {
@@ -78,7 +78,7 @@ function setup_moon() {
     # and https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/statusbar/moonphase
     MOONREPORT="${CACHE}/moonreport"
     [ "$(stat -c %y "${MOONREPORT}" 2>/dev/null | cut -d' ' -f1)" = "$(date '+%Y-%m-%d')" ] || curl -sf "https://wttr.in/?format=%m" > "${MOONREPORT}"
-    cat ${MOONREPORT}
+    cat "${MOONREPORT}"
 }
 
 function setup_wttr_report() {
