@@ -94,15 +94,13 @@ function setup_wttr_report() {
 }
 
 while :; do
-    DATE=$(setup_date)
-    NET=$(setup_net)
-    DF=$(setup_df)
-    RAM=$(setup_ram)
-    CPU_TEMP=$(setup_thermal)
-    CPU_UTIL=$(setup_cpu)
-    VOLUME=$(setup_sound_volume)
-    WTTR=$(setup_wttr_report)
-    STATUS="${WTTR}${SEP}♪:${VOLUME}${SEP}🧠:${CPU_UTIL}% 🌡${CPU_TEMP}${SEP}${RAM}${SEP}${DF}${SEP}${NET}${SEP}${DATE}"
+    STATUS="$(setup_date)"
+    STATUS="$(setup_net)${SEP}${STATUS}"
+    STATUS="$(setup_df)${SEP}${STATUS}"
+    STATUS="$(setup_ram)${SEP}${STATUS}"
+    STATUS="🧠:$(setup_cpu)% 🌡$(setup_thermal)${SEP}${STATUS}"
+    STATUS="♪:$(setup_sound_volume)${SEP}${STATUS}"
+    STATUS="$(setup_wttr_report)${SEP}${STATUS}"
     # echo "$STATUS" || exit 1
     xsetroot -name "$STATUS" || exit 1
     sleep 1s
