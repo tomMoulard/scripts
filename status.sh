@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# | ♪: 100% | sda1: 112,4 GiB | W:  79% at '- scrat 4 -' 192.168.0.69 (130 Mb/s / 2,4 GHz) | load: 0,48 | CPU: 06% | T: 39 °C | 2020-06-21 23:02:03
-
-# i3status -c $HOME/.config/i3/status.conf | while :;
-# do
-    # read line;
-    # xsetroot -name "$line" || exit 1;
-# done
-# sound volume | df | net | load | cpu % | temparature | date
-
 # Configuration
 SEP="|"
 IF_NAME=wlp3s0
