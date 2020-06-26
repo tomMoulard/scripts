@@ -72,7 +72,7 @@ function setup_wttr_report() {
     WEATHERREPORT="${CACHE}/weatherreport"
     [ "$(stat -c %y "${WEATHERREPORT}" 2>/dev/null | cut -d':' -f1)" = "$(date '+%Y-%m-%d %H')" ] || \
         curl -sf https://wttr.in/?format="%c%h+%t+%w+%m" > "${WEATHERREPORT}"
-    cat "${WEATHERREPORT}"
+    cat "${WEATHERREPORT}" | grep -v "Unknown location"
 }
 
 while :; do
