@@ -73,6 +73,14 @@ function setup_sound_volume() {
     echo "${VOLUME}${ICON}"
 }
 
+function setup_moon() {
+    # see wttr.in/:help
+    # and https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/statusbar/moonphase
+    MOONREPORT="${CACHE}/moonreport"
+    [ "$(stat -c %y "${MOONREPORT}" 2>/dev/null | cut -d' ' -f1)" = "$(date '+%Y-%m-%d')" ] || curl -sf "https://wttr.in/?format=%m" > "${MOONREPORT}"
+    cat ${MOONREPORT}
+}
+
 function setup_wttr_report() {
     # see wttr.in/:help
     # and https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/statusbar/weather
@@ -100,7 +108,7 @@ while :; do
     STATUS="$(setup_ram)${SEP}${STATUS}"
     STATUS="🧠:$(setup_cpu)% 🌡$(setup_thermal)${SEP}${STATUS}"
     STATUS="♪:$(setup_sound_volume)${SEP}${STATUS}"
-    STATUS="$(setup_wttr_report)${SEP}${STATUS}"
+    STATUS="$(setup_wttr_report) $(setup_moon)${SEP}${STATUS}"
     # echo "$STATUS" || exit 1
     xsetroot -name "$STATUS" || exit 1
     sleep 1s
