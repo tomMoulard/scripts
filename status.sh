@@ -73,6 +73,7 @@ function setup_wttr_report() {
     [ "$(stat -c %y "${WEATHERREPORT}" 2>/dev/null | cut -d':' -f1)" = "$(date '+%Y-%m-%d %H')" ] || \
         curl -sf https://wttr.in/?format="%c%h+%t+%w+%m" > "${WEATHERREPORT}"
     cat "${WEATHERREPORT}" | grep -v "Unknown location"
+    [ $(du "${WEATHERREPORT}" | sed -e 's/\([0-9][0-9]*\).*/\1/') -eq 0 ] && rm "${WEATHERREPORT}"
 }
 
 while :; do
