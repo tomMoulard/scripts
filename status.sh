@@ -4,6 +4,7 @@
 SEP="|"
 IF_NAME=wlp3s0
 FILESYSTEM=sda1
+BAT=BAT0
 
 # Variables
 CACHE=${XDG_CACHE_HOME:-$HOME/.cache}
@@ -71,9 +72,26 @@ function setup_wttr_report() {
     # see wttr.in/:help
     WEATHERREPORT="${CACHE}/weatherreport"
     [ "$(stat -c %y "${WEATHERREPORT}" 2>/dev/null | cut -d':' -f1)" = "$(date '+%Y-%m-%d %H')" ] || \
-        curl -sf https://wttr.in/?format="%c%h+%t+%w+%m" > "${WEATHERREPORT}"
-    cat "${WEATHERREPORT}" | grep -v "Unknown location"
-    [ $(du "${WEATHERREPORT}" | sed -e 's/\([0-9][0-9]*\).*/\1/') -eq 0 ] && rm "${WEATHERREPORT}"
+        timeout 1 curl -sf https://wttr.in/?format="%c%h+%t+%w+%m" \
+            > "${WEATHERREPORT}"
+    grep -v "Unknown location" "${WEATHERREPORT}" | \
+        grep -v "Sorry" | \
+        grep -v "running out of queries" | \
+        grep -v "default" | \
+        grep -v "new queries" | \
+        grep -v "https://twitter.com/igor_chubin" | \
+        grep -v "======"
+    [ $(ls -als "${WEATHERREPORT}" | cut -d' ' -f 6) -eq 0 ] && rm "${WEATHERREPORT}"
+}
+
+function setup_battery() {
+    ICON="🔋"
+    CAPACITY=$(cat /sys/class/power_supply/${BAT}/capacity)
+    STATUS=$(cat /sys/class/power_supply/${BAT}/status)
+    if [[ "${STATUS}" == "Charging" ]]; then
+        ICON="🔌"
+    fi
+    echo "${ICON}${CAPACITY}%${SEP}"
 }
 
 while :; do
@@ -84,6 +102,7 @@ while :; do
     STATUS="🧠:$(setup_cpu)% 🌡$(setup_thermal)${SEP}${STATUS}"
     STATUS="♪:$(setup_sound_volume)${SEP}${STATUS}"
     STATUS="$(setup_wttr_report)${SEP}${STATUS}"
+    STATUS="$(setup_battery)${STATUS}"
     # echo "$STATUS" || exit 1
     xsetroot -name "$STATUS" || exit 1
     sleep 1s
