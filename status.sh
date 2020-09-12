@@ -3,6 +3,7 @@
 # Configuration
 SEP="|"
 IF_NAME=wlp3s0
+# IF_NAME=usb0
 FILESYSTEM=sda1
 BAT=BAT0
 
@@ -92,6 +93,20 @@ function setup_battery() {
         ICON="🔌"
     fi
     echo "${ICON}${CAPACITY}%${SEP}"
+
+    # Send notifications
+    POWERNOTIF="${CACHE}/powernotif"
+    NOTIFIED=$(cat ${POWERNOTIF})
+    NOTIFIED=${NOTIFIED:=0}
+    if [[ ${CAPACITY} -le 100 ]]; then
+        if [[ "0" == "${NOTIFIED}" ]]; then
+            notify-send -u CRITICAL -c battery \
+                "Battery Level Critical" "${CAPACITY}"
+            echo "1" > ${POWERNOTIF}
+        fi
+    else
+        echo "0" > ${POWERNOTIF}
+    fi
 }
 
 while :; do
