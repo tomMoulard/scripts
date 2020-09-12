@@ -98,7 +98,7 @@ function setup_battery() {
     POWERNOTIF="${CACHE}/powernotif"
     NOTIFIED=$(cat ${POWERNOTIF})
     NOTIFIED=${NOTIFIED:=0}
-    if [[ ${CAPACITY} -le 100 ]]; then
+    if [[ ${CAPACITY} -le 10 ]]; then
         if [[ "0" == "${NOTIFIED}" ]]; then
             notify-send -u CRITICAL -c battery \
                 "Battery Level Critical" "${CAPACITY}"
