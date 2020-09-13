@@ -1,5 +1,5 @@
 # Bookplit
-A utility to split audio books using it's corresponding timestamps
+A utility to split audio books using it's corresponding timestamp
 
 # Author
 [Luke Smith](lukesmith.xyz)
@@ -10,7 +10,7 @@ You must provide a music file and a timestamp file:
 ./booksplit <audiofile> <timestamp file>
 ```
 
-Where the timestamp file is formated as follow:
+Where the timestamp file is formatted as follow:
 ```
 00:00:00 Indroduction
 00:01:01 bla bla bla
