@@ -92,7 +92,7 @@ function setup_battery() {
     if [[ "${STATUS}" == "Charging" ]]; then
         ICON="🔌"
     fi
-    echo "${ICON}${CAPACITY}%${SEP}"
+    printf "${ICON}%2d%%${SEP}" "${CAPACITY}"
 
     # Send notifications
     POWERNOTIF="${CACHE}/powernotif"
