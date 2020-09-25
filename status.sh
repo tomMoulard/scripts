@@ -24,7 +24,7 @@ function setup_net() {
         || echo 0)
     TX_CAL=$(( (TX - TX_OLD) ))
     RX_CAL=$(( (RX - RX_OLD) ))
-    VALUES=("B  " "KiB" "MiB" "GiB" "TiB")
+    VALUES=("B" "K" "M" "G" "T")
     TX_POS=0
     RX_POS=0
     while [ ${TX_CAL} -ge 1024 ]; do
@@ -39,7 +39,7 @@ function setup_net() {
     SSID=$(iwgetid | cut -d"\"" -f 2)
     POWER=$(awk '/^\s*w/ { print "📶", int($3 * 100 / 70) "%"}' /proc/net/wireless)
 
-    printf "%s:⬇%4d%3s ⬆%4d%3s %s" "${SSID}"\
+    printf "%s:⬇%4d%s⬆%4d%s %s" "${SSID}"\
         "${RX_CAL}" "${VALUES[${RX_POS}]}" \
         "${TX_CAL}" "${VALUES[${TX_POS}]}" \
         "${POWER}"
