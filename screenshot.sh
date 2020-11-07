@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION=1
-PICTURE_PATH="$HOME/Pictures/$(printf 'Screenshot from %s %s.png' $(date +'%Y-%m-%d %H-%M-%S'))"
+PICTURE_PATH="${HOME}/Pictures/$(printf 'Screenshot from %s %s.png' $(date +'%Y-%m-%d %H-%M-%S'))"
 
 USAGE="
 Usage: $0 OPTION\n
@@ -12,15 +12,17 @@ OPTION:\n
 Version: ${VERSION}
 "
 
-[ "$1" = "" ] && echo $USAGE && exit 1
+[ "$1" = "" ] && echo "${USAGE}" && exit 1
 
 case $1 in
     -f|--full)
-        scrot "$PICTURE_PATH"
+        scrot "${PICTURE_PATH}"
         ;;
     -s|--select)
-        import "$PICTURE_PATH"
+        import "${PICTURE_PATH}"
         ;;
     *)
-    echo $USAGE && exit 1
+    echo ${USAGE} && exit 1
 esac
+
+notify-send -u low -i "${PICTURE_PATH}" "Screenshot taken" "${PICTURE_PATH}"
