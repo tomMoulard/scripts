@@ -9,7 +9,7 @@ Arguments:
 # Get output file name
 OUTPUT="$1"
 if [[ "${OUTPUT}" == "" || "${OUTPUT}" == "-h" || "${OUTPUT}" == "--help" ]]; then
-    printf "%s\n" "$USAGE"
+    echo -e "${USAGE}"
     exit 1
 fi
 
