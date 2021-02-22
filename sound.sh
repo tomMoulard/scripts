@@ -1,11 +1,10 @@
 #!/bin/sh
-USAGE="Usage $0 {toggle|up|down|mute|set <value>}
-"
+USAGE="Usage ${0} {toggle|up|down|mute|set <value>}"
 
 STEP=2
 MUTE_VAL=0
 
-case "$1" in
+case "${1}" in
     toggle)
         amixer -D pulse sset Master toggle
         ;;
@@ -22,10 +21,10 @@ case "$1" in
         ;;
     set)
         # amixer -D pulse sset Master ${2}%
-        pactl set-sink-volume 0 ${2}%
+        pactl set-sink-volume 0 "${2}%"
         ;;
     *)
-        printf "$USAGE"
+        echo "${USAGE}"
         exit 1
         ;;
 esac
