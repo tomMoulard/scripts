@@ -23,7 +23,7 @@ setbrg () {
     elif [[ ${RET} -le ${MIN} ]]; then
         RET=${MIN}
     fi
-    echo $(python3 -c "print(${RET} / 10)")
+    python3 -c "print(${RET} / 10)"
 }
 
 case "${1}" in
