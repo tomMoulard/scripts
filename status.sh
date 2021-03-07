@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Configuration
+DURATION="1s" # loop duration
 SEP="|"
 IF_NAME=wlp3s0
 # IF_NAME=usb0
-FILESYSTEM=sda1
+FILESYSTEM=rpool/USERDATA/tm_nncxg2
 BAT=BAT0
 
 # Variables
@@ -55,7 +56,7 @@ function setup_ram () {
 }
 
 function setup_cpu() {
-    printf "%2d" "$(top -b -n1 | grep ^%Cpu | awk '{print 100-$8}')"
+    top -b -n1 | grep ^%Cpu | awk '{printf "%2d", int(100-$8)}'
 }
 
 function setup_thermal() {
@@ -109,7 +110,7 @@ function setup_battery() {
     fi
 }
 
-while :; do
+function export_status() {
     STATUS="$(setup_date)"
     STATUS="$(setup_net)${SEP}${STATUS}"
     STATUS="$(setup_df)${SEP}${STATUS}"
@@ -117,9 +118,13 @@ while :; do
     STATUS="🧠:$(setup_cpu)% 🌡$(setup_thermal)${SEP}${STATUS}"
     STATUS="♪:$(setup_sound_volume)${SEP}${STATUS}"
     STATUS="$(setup_wttr_report)${SEP}${STATUS}"
-    STATUS="$(setup_battery)${STATUS}"
-    # echo "$STATUS" || exit 1
-    xsetroot -name "$STATUS" || exit 1
-    sleep 1s
-done
+    echo -e "$(setup_battery)${STATUS}"
+}
 
+while :; do
+    # STATUS=$(timeout ${DURATION} export_status)
+    STATUS=$(export_status)
+    # echo "${STATUS}" || exit 1
+    xsetroot -name "${STATUS}" || exit 1
+    sleep ${DURATION}
+done
