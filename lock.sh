@@ -11,6 +11,7 @@ convert ${FILE} -blur 0x8 ${FILE}
 
 notify-send "DUNST_COMMAND_PAUSE"
 nmcli networking off
+nmcli r wifi off
 
 i3lock -t  -i ${FILE} \
     --clock --force-clock \
@@ -19,5 +20,6 @@ i3lock -t  -i ${FILE} \
 
 notify-send "DUNST_COMMAND_RESUME"
 nmcli networking on
+nmcli r wifi on
 
 rm ${FILE}
