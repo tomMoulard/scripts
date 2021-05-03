@@ -5,7 +5,9 @@ DURATION="1s" # loop duration
 SEP="|"
 IF_NAME=wlp3s0
 # IF_NAME=usb0
-FILESYSTEM=rpool/USERDATA/tm_nncxg2
+IF_NAME=wlp0s20f3
+IF_NAME=enx4ce1734cd6de
+FILESYSTEM=nvme0n1p2
 BAT=BAT0
 
 # Variables
@@ -60,8 +62,8 @@ function setup_cpu() {
 }
 
 function setup_thermal() {
-    CPU_TEMP=$(cat /sys/class/thermal/thermal_zone0/temp)
-    printf "%d°c" $(( CPU_TEMP / 1000))
+    CPU_TEMP=$(cat /sys/class/thermal/thermal_zone*/temp | awk '{t += $0} END {print t/NR/1000}')
+    printf "%d°c" ${CPU_TEMP}
 }
 
 function setup_sound_volume() {
