@@ -4,7 +4,7 @@ USAGE="Usage ${0} {toggle|up|down|mute|set <value>}"
 STEP=2
 MUTE_VAL=0
 SINK=0 # pacmd list-sinks | grep -e 'name:' -e 'index:' | grep -e '[0-9]'
-SINK="$(pacmd list-sinks | grep -e 'index:' | cut -d " " -f 5)"
+SINK="$(pacmd list-sinks | grep -e '* index:' | cut -d " " -f 5)"
 # pactl list short | grep RUNNING | cut -d"	"  -f 1
 
 set -x
