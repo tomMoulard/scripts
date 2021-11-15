@@ -24,4 +24,6 @@ case $1 in
     exit 1
 esac
 
+xclip -selection c -t image/png "${PICTURE_PATH}"
+
 notify-send -u low -i "${PICTURE_PATH}" "Screenshot taken" "${PICTURE_PATH}"
