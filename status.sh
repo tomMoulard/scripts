@@ -3,10 +3,7 @@
 # Configuration
 DURATION="1s" # loop duration
 SEP="|"
-IF_NAME=wlp3s0
-# IF_NAME=usb0
-IF_NAME=wlp0s20f3
-IF_NAME=enx4ce1734cd6de
+IF_NAME="$(ip r | grep 'default via' | cut -d' ' -f 5)"
 FILESYSTEM=nvme0n1p2
 BAT=BAT0
 
