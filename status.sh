@@ -3,7 +3,7 @@
 # Configuration
 DURATION="1s" # loop duration
 SEP="|"
-IF_NAME="$(ip r | grep 'default via' | cut -d' ' -f 5)"
+IF_NAME="$(ip r | grep 'default via' | cut -d' ' -f 5 | head -n1)"
 FILESYSTEM=nvme0n1p2
 BAT=BAT0
 
