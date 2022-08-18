@@ -16,10 +16,10 @@ function setup_date() {
 }
 
 function setup_net() {
-    TX=$(cat /sys/class/net/${IF_NAME}/statistics/tx_bytes)
+    TX="$(cat /sys/class/net/"${IF_NAME}"/statistics/tx_bytes)"
     TX_OLD=$([ -f "${CACHE}/netstat" ] && cut -d' ' -f 1 "${CACHE}/netstat" \
         || echo 0)
-    RX=$(cat /sys/class/net/${IF_NAME}/statistics/rx_bytes)
+    RX="$(cat /sys/class/net/"${IF_NAME}"/statistics/rx_bytes)"
     RX_OLD=$([ -f "${CACHE}/netstat" ] && cut -d' ' -f 2 "${CACHE}/netstat" \
         || echo 0)
     TX_CAL=$(( (TX - TX_OLD) ))
@@ -60,7 +60,7 @@ function setup_cpu() {
 
 function setup_thermal() {
     CPU_TEMP=$(cat /sys/class/thermal/thermal_zone*/temp | awk '{t += $0} END {print t/NR/1000}')
-    printf "%d°c" ${CPU_TEMP}
+    printf "%d°c" "${CPU_TEMP}"
 }
 
 function setup_sound_volume() {
@@ -96,16 +96,16 @@ function setup_battery() {
 
     # Send notifications
     POWERNOTIF="${CACHE}/powernotif"
-    NOTIFIED=$(cat ${POWERNOTIF})
+    NOTIFIED="$(cat "${POWERNOTIF}")"
     NOTIFIED=${NOTIFIED:=0}
     if [[ ${CAPACITY} -le 10 ]]; then
         if [[ "0" == "${NOTIFIED}" ]]; then
             notify-send -u CRITICAL -c battery \
                 "Battery Level Critical" "${CAPACITY}"
-            echo "1" > ${POWERNOTIF}
+            echo "1" > "${POWERNOTIF}"
         fi
     else
-        echo "0" > ${POWERNOTIF}
+        echo "0" > "${POWERNOTIF}"
     fi
 }
 
