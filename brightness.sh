@@ -7,7 +7,9 @@ MAX=10    # Max screen brightness value (10x)
 MIN=0     # Min screen brightness value (10x)
 VAL=$(xrandr --prop --verbose | \
     grep -A10 " connected" | grep "Brightness" | \
-    sed -e 's,.*: \([0-9][0-9]*.[0-9][0-9]*\).*,\1,')
+    sed -e 's,.*: \([0-9][0-9]*.[0-9][0-9]*\).*,\1,' | head -n1)
+
+SCREEN="$(xrandr | grep " connected" | cut -f1 -d " " | head -n1)"
 
 setbrg () {
     # Bash does not have floats T_T
@@ -29,6 +31,7 @@ setbrg () {
 case "${1}" in
     full)
         xrandr --output "${SCREEN}" --brightness 1.0
+        brightnessctl set 100%
         ;;
     up|down)
         xrandr --output "${SCREEN}" --brightness "$(setbrg "${1}")"
