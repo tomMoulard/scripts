@@ -22,8 +22,8 @@ function setup_net() {
     RX="$(cat /sys/class/net/"${IF_NAME}"/statistics/rx_bytes)"
     RX_OLD=$([ -f "${CACHE}/netstat" ] && cut -d' ' -f 2 "${CACHE}/netstat" \
         || echo 0)
-    TX_CAL=$(( (TX - TX_OLD) ))
-    RX_CAL=$(( (RX - RX_OLD) ))
+    TX_CAL=$(( TX - TX_OLD ))
+    RX_CAL=$(( RX - RX_OLD ))
     VALUES=("B" "K" "M" "G" "T")
     TX_POS=0
     RX_POS=0
@@ -60,7 +60,7 @@ function setup_cpu() {
 
 function setup_thermal() {
     CPU_TEMP=$(cat /sys/class/thermal/thermal_zone*/temp | awk '{t += $0} END {print t/NR/1000}')
-    printf "%d°c" "${CPU_TEMP}"
+    printf "%d°c" "${CPU_TEMP/.*/}"
 }
 
 function setup_sound_volume() {
